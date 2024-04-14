@@ -1,0 +1,84 @@
+
+
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Position the navbar as fixed */
+    top: 0; /* Position it at the top of the page */
+    left: 0;
+    width: 100%; /* Make it stretch across the screen */
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.logo img {
+    width: 150px;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.search-bar input[type="text"] {
+    padding: 5px 30px 5px 10px; /* Add padding to accommodate the magnifying glass icon */
+    width: 70%;
+    border: none;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+
+.search-bar button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 20px;
+}
+
+.auth-buttons {
+    display: flex; /* Display the buttons side by side */
+}
+
+.auth-buttons .home-button a,
+.auth-buttons .login-signup-button a {
+    color: inherit; /* Set the font color of anchor tags inside buttons to inherit from the parent */
+    text-decoration: none; /* Remove underline from anchor tags */
+}
+
+.auth-buttons .home-button,
+.auth-buttons .login-signup-button {
+    padding: 8px 14px;
+    font-size: 14px;
+    border: none;
+    color: white;
+    margin-left: 0px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.auth-buttons .home-button {
+    background-color: #696868;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+.auth-buttons .login-signup-button {
+    background-color: #696868;
+    border-radius: 10px;
+}
+
+.auth-buttons .home-button:hover,
+.auth-buttons .login-signup-button:hover {
+    background-color: rgb(0, 145, 255); /* Change background color on hover */
+}
+
