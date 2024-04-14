@@ -1,0 +1,11 @@
+.login-container {
+    display: flex;
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    height: calc(100vh - 60px); /* Subtract navbar height from viewport height */
+    padding-top: 60px;
+  }
+  
+  .login-content {
+    text-align: center; /* Center text */
+  }

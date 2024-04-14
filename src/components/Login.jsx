@@ -3,6 +3,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import firebaseApp from '../firebaseConfig';
+import './Login.css'
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
@@ -26,8 +27,12 @@ function Login() {
   return (
     <div>
         <Navbar />
-        <h1>Login/Sign Up</h1>
-        <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+        <div className="login-container">
+            <div className="login-content">
+                <h1>Login/Sign Up</h1>
+                <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            </div>
+        </div>
     </div>
   );
 }
