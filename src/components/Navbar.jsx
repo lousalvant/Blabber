@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'; // Import your CSS file for styling
 import logoImg from './blabber.png';
@@ -8,6 +8,7 @@ import { getAuth, signOut } from 'firebase/auth';
 function Navbar() {
     const auth = getAuth();
     const [user] = useAuthState(auth); // Get the user's authentication state
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleSignOut = () => {
         signOut(auth)
@@ -18,6 +19,11 @@ function Navbar() {
             // An error happened.
         });
     };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
     return (
         <nav className="navbar">
             <div className="logo">
@@ -34,10 +40,15 @@ function Navbar() {
 
                 {user ? ( // If user is signed in
                 <>
-                    <div className="account-button">
-                    <Link to="/account">Account</Link> {/* Link to Account page */}
+                    <div className="account-button" onClick={toggleDropdown}>
+                        <span>Account</span> {/* Link to Account page */}
+                        {dropdownOpen && (
+                            <div className="dropdown-content">
+                                <Link to="/account">Account Overview</Link>
+                                <button onClick={handleSignOut}>Sign Out</button>
+                            </div>
+                        )}
                     </div>
-                    <button onClick={handleSignOut}>Sign Out</button>
                 </>
                 ) : ( // If user is not signed in
                 <div className="login-signup-button">

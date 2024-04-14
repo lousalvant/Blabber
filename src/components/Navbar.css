@@ -12,6 +12,56 @@
     z-index: 1000; /* Ensure it stays above other elements */
 }
 
+/* Dropdown Button */
+.account-button {
+    position: relative;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    color: black;
+}
+
+/* Show the dropdown content when the dropdown button is hovered over */
+.account-button:hover .dropdown-content {
+    display: block;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Style the sign out button */
+.dropdown-content button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+/* Change color of sign out button on hover */
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
+
 .logo img {
     width: 150px;
 }
@@ -48,13 +98,15 @@
 }
 
 .auth-buttons .home-button a,
-.auth-buttons .login-signup-button a {
+.auth-buttons .login-signup-button a,
+.auth-buttons .account-button a {
     color: inherit; /* Set the font color of anchor tags inside buttons to inherit from the parent */
     text-decoration: none; /* Remove underline from anchor tags */
 }
 
 .auth-buttons .home-button,
-.auth-buttons .login-signup-button {
+.auth-buttons .login-signup-button,
+.auth-buttons .account-button {
     padding: 8px 14px;
     font-size: 14px;
     border: none;
@@ -75,8 +127,15 @@
     border-radius: 10px;
 }
 
+.auth-buttons .account-button {
+    background-color: #696868;
+    border-radius: 10px;
+}
+
+
 .auth-buttons .home-button:hover,
-.auth-buttons .login-signup-button:hover {
+.auth-buttons .login-signup-button:hover,
+.auth-buttons .account-button:hover {
     background-color: rgb(0, 145, 255); /* Change background color on hover */
 }
 
