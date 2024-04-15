@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // Import updateProfile
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getStorage, ref, uploadBytes } from 'firebase/storage'; // Import storage functions
 import Navbar from '../components/Navbar';
 import firebaseApp from '../firebaseConfig';
 import './Signup.css';
@@ -10,9 +11,12 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null); // State for profile picture
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const auth = getAuth(firebaseApp);
+  const storage = getStorage(firebaseApp);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -23,6 +27,12 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      // Upload profile picture if selected
+      if (profilePicture) {
+        const storageRef = ref(storage, `profilePictures/${user.uid}`);
+        await uploadBytes(storageRef, profilePicture);
+      }
 
       // Update user's display name with the username
       await updateProfile(user, {
@@ -42,6 +52,18 @@ function SignUp() {
       setError(error.message);
     }
   };
+
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      setProfilePicture(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setPreviewImage(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };  
 
   return (
     <div>
@@ -80,6 +102,10 @@ function SignUp() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+              <div className='file-input-container'>
+                <input type="file" onChange={handleImageChange} accept="image/*" /> {/* File input for profile picture */}
+                {previewImage && <img src={previewImage} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px'}} />}
+              </div>
               <div className="button-container">
                 <button type="submit">Sign Up</button>
               </div>
