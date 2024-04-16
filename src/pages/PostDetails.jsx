@@ -1,7 +1,7 @@
 // pages/PostDetails.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { useParams, Link } from 'react-router-dom';
+import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
 function PostDetails() {
@@ -46,6 +46,23 @@ function PostDetails() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(db, 'posts', postId));
+      console.log('Post deleted successfully');
+      // Set success message
+      alert('Post deleted successfully!');
+      // Redirect user to the home page
+      window.location = '/';
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      // Set error message
+      alert('Error deleting post. Please try again.');
+    }
+  };
+  
+
+
   return (
     <div>
       <h2>Post Details</h2>
@@ -54,7 +71,10 @@ function PostDetails() {
           <h3>{post.title}</h3>
           <p>{post.content}</p>
           {renderMedia()}
-          {/* Render other post details as needed */}
+          <Link to={`/editpost/${post.id}`}>
+            <button>Edit</button>
+          </Link>
+          <button onClick={handleDelete}>Delete</button>
         </div>
       )}
     </div>

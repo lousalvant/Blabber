@@ -10,6 +10,7 @@ import SignUp from './pages/Signup';
 import CreatePost from './pages/CreatePost';
 import Home from './pages/Home';
 import PostDetails from './pages/PostDetails';
+import EditPost from './pages/EditPost';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
@@ -21,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/account" element={<Account />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/post/:postId" element={<PostDetails />} />
-        {/* Add other routes here */}
+        <Route path="/editpost/:postId" element={<EditPost />} />
       </Routes>
     </Layout>
   </Router>
