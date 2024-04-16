@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
+import './Home.css';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -36,11 +37,11 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className='home-container'>
+
       {error && <p>Error fetching posts: {error}</p>}
       {posts.map(post => (
-        <div key={post.id}>
+        <div className='post-container' key={post.id}>
           <Link to={`/post/${post.id}`}>
             <Post post={post} /> {/* Pass each post as a prop to the Post component */}
           </Link>

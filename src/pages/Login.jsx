@@ -39,7 +39,7 @@ function Login() {
   return (
     <div>
       <Navbar />
-      <div className="container">
+      <div className="login-container">
         <div className="login-box">
           <h1>Login</h1>
           {loginMessage && <p>{loginMessage}</p>} {/* Render login message if present */}

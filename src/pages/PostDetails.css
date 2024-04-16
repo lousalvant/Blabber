@@ -1,0 +1,38 @@
+.post-details-container {
+    max-width: 800px;
+    max-height: 1000px;
+    margin: 100px auto;
+    padding: 50px;
+    background-color: #808080;
+    border-radius: 8px;
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: left;
+    border: 1px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* .post-details-box {
+
+} */
+
+.button-container {
+    text-align: right;
+ }
+
+ .button-container button {
+    background-color: rgba(46, 45, 45, 0.5); /* Greyed out and slightly opaque */
+    border: none;
+    border-radius: 20px; /* Make the buttons round */
+    padding: 10px 15px; /* Adjust padding as needed */
+    margin-left: 5px;
+  }
+  
+  .button-container button:hover {
+    background-color: rgba(15, 15, 15, 0.7); /* Darker grey on hover */
+  }
+  
+  .button-container button:disabled {
+    opacity: 0.5; /* Make the button slightly opaque when disabled */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }

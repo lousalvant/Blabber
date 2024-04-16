@@ -68,7 +68,7 @@ function SignUp() {
   return (
     <div>
       <Navbar />
-      <div className="container">
+      <div className="signup-container">
         <div className="signup-box">
           <h2>Sign Up</h2>
           <div className="content">
@@ -106,7 +106,9 @@ function SignUp() {
                 required
                 className='input-field'
               />
+              <h4>Choose a profile picture!</h4>
               <div className='file-input-container'>
+                
                 <input type="file" onChange={handleImageChange} accept="image/*" /> {/* File input for profile picture */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px'}} />}
               </div>

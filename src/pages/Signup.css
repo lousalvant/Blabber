@@ -1,4 +1,4 @@
-.container {
+.signup-container {
     display: flex;
     align-items: center; /* Vertically center content */
     justify-content: center; /* Horizontally center content */
@@ -12,6 +12,8 @@
     border-radius: 8px; /* Border radius for rounded corners */
     padding: 20px; /* Padding inside the box */
     width: 300px; /* Width of the box */
+    border: 1px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .signup-box input {
@@ -20,7 +22,6 @@
 
 .signup-box input {
     margin-bottom: 10px; /* Add bottom margin to input boxes */
-    width: 100%; /* Ensure input boxes fill the width of the container */
 }
 
 

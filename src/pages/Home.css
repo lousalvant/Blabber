@@ -1,0 +1,16 @@
+/* Home.css */
+.home-container {
+    max-width: 80%; /* Container stretches 80% of the screen from right to left */
+    margin: auto; /* Center the container horizontally */
+    margin-top: 150px;
+}
+
+.post-container {
+    margin-bottom: 20px; /* Add margin between post containers */
+    padding: 20px; /* Add padding to post containers for spacing */
+    border: 1px solid #ccc; /* Add border for visual separation */
+    background-color: #808080;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}

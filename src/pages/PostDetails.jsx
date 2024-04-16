@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import './PostDetails.css';
 
 function PostDetails() {
   const { postId } = useParams();
@@ -72,17 +73,18 @@ function PostDetails() {
 
 
   return (
-    <div>
-      <h2>Post Details</h2>
+    <div className='post-details-container'>
       {post && (
-        <div>
-          <h3>{post.title}</h3>
+        <div className='post-details-box'>
+          <h1>{post.title}</h1>
           <p>{post.content}</p>
           {renderMedia()}
-          <Link to={`/editpost/${post.id}`}>
-            <button>Edit</button>
-          </Link>
-          <button onClick={handleDelete}>Delete</button>
+          <div className='button-container'>
+            <Link to={`/editpost/${post.id}`}>
+              <button>✏️</button>
+            </Link>
+            <button onClick={handleDelete}>❌</button>
+          </div>
         </div>
       )}
     </div>
