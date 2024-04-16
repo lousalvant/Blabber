@@ -20,10 +20,12 @@ function Login() {
         // Handle successful sign-in
         const user = userCredential.user;
         console.log('User signed in:', user);
-        setLoginMessage('You have successfully logged in!');
-        setTimeout(() => {
-          navigate('/'); // Redirect to the home page
-        }, 2000); // Delay in milliseconds
+
+        // Display success message with the user's display name
+        alert(`You have successfully logged in! Welcome back, ${user.displayName}!`);
+
+        // Redirect to the home page
+        navigate('/');
       })
       .catch((error) => {
         // Handle errors

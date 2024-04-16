@@ -18,6 +18,12 @@
     margin-bottom: 10px; /* Add bottom margin to input boxes */
 }
 
+.signup-box input {
+    margin-bottom: 10px; /* Add bottom margin to input boxes */
+    width: 100%; /* Ensure input boxes fill the width of the container */
+}
+
+
 .content {
     text-align: center; /* Center text */
 }

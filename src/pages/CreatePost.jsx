@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import './CreatePost.css';
 
 function CreatePost() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState('');
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -45,6 +61,16 @@ function CreatePost() {
     const id = getVideoId(url);
     setVideoId(id);
   };
+
+  if (loading) {
+    return null; // or render a loading spinner
+  }
+
+  if (!user) {
+    alert('Please log in to create a post!');
+    navigate('/login'); // Use navigate function to redirect
+    return null; // Return null to prevent rendering while redirecting
+  }
 
   return (
     <div className="container">

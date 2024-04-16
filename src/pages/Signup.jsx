@@ -40,7 +40,7 @@ function SignUp() {
       });
 
       // Display success message
-      alert(`Account successfully created! Hello, ${username}`);
+      alert(`Account successfully created! Hello, ${username}!`);
 
       // Log user information to the console
       console.log(`User signed in: ${user.displayName} (${user.email})`);
@@ -75,11 +75,12 @@ function SignUp() {
             {error && <div>{error}</div>}
             <form onSubmit={handleSignUp}>
               <input
-                type="text"
+                type="username"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                className='input-field'
               />
               <input
                 type="email"
@@ -87,6 +88,7 @@ function SignUp() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className='input-field'
               />
               <input
                 type="password"
@@ -94,6 +96,7 @@ function SignUp() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className='input-field'
               />
               <input
                 type="password"
@@ -101,6 +104,7 @@ function SignUp() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className='input-field'
               />
               <div className='file-input-container'>
                 <input type="file" onChange={handleImageChange} accept="image/*" /> {/* File input for profile picture */}
