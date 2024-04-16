@@ -40,11 +40,15 @@ function Navbar() {
                 <input type="text" placeholder="Search..." />
                 <button>🔍</button> {/* Search button with the magnifying glass emoji */}
             </div>
+            <div className="nav-buttons">
+                <div className="create-post-button">
+                    <Link to="/createpost">Create Post</Link>
+                </div>
+            </div>
             <div className="auth-buttons">
                 <div className='home-button'>
                     <Link to="/">Home</Link>
                 </div>
-
                 <div className="account-button" onClick={toggleDropdown}>
                     <span>{user ? 'Account' : 'Account'}</span> {/* Link to Account page */}
                     {dropdownOpen && (

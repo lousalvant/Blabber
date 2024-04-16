@@ -68,6 +68,7 @@
 
 .search-bar {
     position: relative;
+    margin-left: 400px;
 }
 
 .search-bar input[type="text"] {
@@ -139,3 +140,18 @@
     background-color: rgb(0, 145, 255); /* Change background color on hover */
 }
 
+.create-post-button a {
+    padding: 8px 14px;
+    font-size: 14px;
+    border: none;
+    color: white;
+    background-color: #696868;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 400px;
+}
+
+.create-post-button a:hover {
+    background-color: rgb(0, 145, 255); /* Change background color on hover */
+}

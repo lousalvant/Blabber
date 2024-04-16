@@ -7,15 +7,18 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import Account from './pages/Account';
 import SignUp from './pages/Signup';
+import CreatePost from './pages/CreatePost';
+import Home from './pages/Home';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
     <Layout> {/* Wrap your routes with the Layout component */}
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/createpost" element={<CreatePost />} />
         {/* Add other routes here */}
       </Routes>
     </Layout>
