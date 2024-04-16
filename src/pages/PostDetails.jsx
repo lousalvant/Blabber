@@ -27,13 +27,18 @@ function PostDetails() {
 
   const renderMedia = () => {
     if (!post) return null;
-
+  
+    const mediaElements = [];
+  
     if (post.imageUrl) {
-      return <img src={post.imageUrl} alt="Post" style={{ maxWidth: '500px', height: 'auto' }} />;
-    } else if (post.youtubeUrl) {
+      mediaElements.push(<img key="image" src={post.imageUrl} alt="Post" style={{ maxWidth: '500px', height: 'auto' }} />);
+    }
+  
+    if (post.youtubeUrl) {
       const videoId = post.youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/)[1];
-      return (
+      mediaElements.push(
         <iframe
+          key="video"
           width="560"
           height="315"
           src={`https://www.youtube.com/embed/${videoId}`}
@@ -44,7 +49,10 @@ function PostDetails() {
         />
       );
     }
+  
+    return mediaElements;
   };
+  
 
   const handleDelete = async () => {
     try {

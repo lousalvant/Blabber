@@ -1,11 +1,17 @@
-.container {
-    max-width: 600px;
-    margin: 200px auto;
+.edit-post-container {
+    max-width: 800px;
+    max-height: 1000px;
+    margin: 100px auto;
     padding: 50px;
+    background-color: #808080;
+    border-radius: 8px;
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: center;
   }
   
   .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   label {

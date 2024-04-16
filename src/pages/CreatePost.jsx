@@ -43,6 +43,9 @@ function CreatePost() {
       setContent('');
       setImageUrl('');
       setYoutubeUrl('');
+      alert('Post successfully created!');
+      // Redirect to home page after 2 seconds
+      navigate('/');
     } catch (error) {
       console.error('Error adding document: ', error);
     }
@@ -73,7 +76,7 @@ function CreatePost() {
   }
 
   return (
-    <div className="container">
+    <div className="create-post-container">
       <h2>Create Post</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -87,15 +90,15 @@ function CreatePost() {
         <div className="form-group">
           <label htmlFor="imageUrl">Image URL:</label>
           <input type="text" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-          {imageUrl && <img src={imageUrl} alt="Post" style={{ maxWidth: '100%', marginTop: '10px' }} />}
+          {imageUrl && <img src={imageUrl} alt="Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
         </div>
         <div className="form-group">
           <label htmlFor="youtubeUrl">YouTube URL:</label>
           <input type="text" id="youtubeUrl" value={youtubeUrl} onChange={handleYoutubeUrlChange} />
           {videoId && (
             <iframe
-              width="560"
-              height="315"
+              width="50%"
+              height="50%"
               src={`https://www.youtube.com/embed/${videoId}`}
               title="YouTube video player"
               frameBorder="0"

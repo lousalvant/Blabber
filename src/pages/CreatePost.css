@@ -1,45 +1,49 @@
-/* CreatePost.css */
-.container {
-    max-width: 600px;
-    margin: 200px auto;
-    padding: 50px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  textarea {
-    width: 500px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-
-  textarea {
-    width: 500px; /* Make sure the textarea spans the full width of its container */
-    height: 150px; /* Adjust the height according to your preference */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.create-post-container {
+  max-width: 800px;
+  max-height: 1000px;
+  margin: 100px auto;
+  padding: 50px;
+  background-color: #808080;
+  border-radius: 8px;
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  text-align: center;
 }
-  
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  width: 500px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+textarea {
+  width: 500px; /* Make sure the textarea spans the full width of its container */
+  height: 150px; /* Adjust the height according to your preference */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
