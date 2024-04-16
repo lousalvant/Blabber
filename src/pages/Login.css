@@ -24,6 +24,15 @@
   text-align: center; /* Center text */
 }
 
-.button-container {
-  margin-top: 10px; /* Add margin to separate button from input fields */
+.login-button-container button {
+  padding: 10px 20px; /* Add padding to the button */
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Apply border radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.login-button-container button:hover {
+  background-color: #0056b3; /* Darken button background color on hover */
 }

@@ -112,7 +112,7 @@ function SignUp() {
                 <input type="file" onChange={handleImageChange} accept="image/*" /> {/* File input for profile picture */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px'}} />}
               </div>
-              <div className="button-container">
+              <div className="signup-button-container">
                 <button type="submit">Sign Up</button>
               </div>
             </form>
