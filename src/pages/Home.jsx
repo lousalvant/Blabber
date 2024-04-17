@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import loadingGif from '../assets/loading.gif';
 import './Home.css';
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
-  const [sortBy, setSortBy] = useState('newest'); // Track sorting option
+  const [loading, setLoading] = useState(true); // Track loading status
+  const [sortBy, setSortBy] = useState('newest');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPosts, setFilteredPosts] = useState([]);
   const storage = getStorage();
@@ -24,34 +26,31 @@ function Home() {
             const userSnapshot = await getDoc(doc(db, 'users', post.userId));
             const userData = userSnapshot.data();
 
-            // Ensure displayName field is included in userData
-            const { displayName } = userData || {}; // Destructure displayName if userData exists
+            const { displayName } = userData || {};
 
-            // Get download URL for profile picture
             const profileImageRef = ref(storage, `profilePictures/${post.userId}`);
             const profileImageUrl = await getDownloadURL(profileImageRef);
 
             return { ...post, user: { ...userData, displayName, profileImageUrl } };
           } else {
             console.warn('User ID is undefined for post:', post);
-            // Fetching post without user data
             return post;
           }
         }));
 
-        // Count unique upvoters for each post
         const updatedPosts = postData.map(post => {
           return { ...post, upvoteCount: new Set(post.upvotes).size };
         });
 
-        // Sort posts based on sorting option
         const sortedPosts = sortPosts(updatedPosts, sortBy);
 
         setPosts(sortedPosts);
-        setFilteredPosts(sortedPosts); // Initialize filtered posts with sorted posts
+        setFilteredPosts(sortedPosts);
+        setLoading(false); // Set loading to false once data is fetched
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError(error.message);
+        setLoading(false); // Set loading to false if an error occurs
       }
     };
 
@@ -68,25 +67,20 @@ function Home() {
     return posts;
   };
 
-  // Function to handle sorting option change
   const handleSortChange = (option) => {
     setSortBy(option);
   };
 
-// Function to handle search query change
-const handleSearchInputChange = (event) => {
-  const query = event.target.value.toLowerCase(); // Convert search query to lowercase for case-insensitive matching
-  setSearchQuery(query); // Update search query state
+  const handleSearchInputChange = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
 
-  // Filter posts based on search query
-  const filtered = posts.filter(post =>
-    post.title.toLowerCase().includes(query)
-  );
-  setFilteredPosts(filtered); // Update filtered posts state
-};
+    const filtered = posts.filter(post =>
+      post.title.toLowerCase().includes(query)
+    );
+    setFilteredPosts(filtered);
+  };
 
-
-  // Function to handle search
   const handleSearch = () => {
     const filtered = posts.filter(post =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -118,15 +112,26 @@ const handleSearchInputChange = (event) => {
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
+        <button onClick={handleSearch}>Search</button>
       </div>
-      {error && <p>Error fetching posts: {error}</p>}
-      {filteredPosts.map(post => (
-        <div className='post-container' key={post.id}>
-          <Link to={`/post/${post.id}`} className='Link'>
-            <Post post={post} showUpvoteIcon={true} />
-          </Link>
+      {loading ? ( // Conditionally render loading animation if loading is true
+        <div className='loading-container'>
+          <div className="loading-animation">
+            <img src={loadingGif} alt="Loading..." />
+          </div>
         </div>
-      ))}
+      ) : (
+        <>
+          {error && <p>Error fetching posts: {error}</p>}
+          {filteredPosts.map(post => (
+            <div className='post-container' key={post.id}>
+              <Link to={`/post/${post.id}`} className='Link'>
+                <Post post={post} showUpvoteIcon={true} />
+              </Link>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }
