@@ -35,7 +35,7 @@ function Account() {
   }, [auth, storage]);
 
   return (
-    <div className="container">
+    <div className="account-container">
       <h1>Account Overview</h1>
       {user ? (
         <div className='user-info'>
