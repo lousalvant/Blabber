@@ -10,6 +10,7 @@
     text-align: left;
     border: 1px solid #000000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
 }
 
 /* .post-details-box {
@@ -54,4 +55,24 @@
 .upvote-button.upvoted {
     background-color: #076df3;
     color: #ffffff;
+}
+
+.comment-section {
+    flex-grow: 1; /* Allow the comment section to grow to fill remaining space */
+    overflow-y: auto; /* Add vertical scroll if content exceeds container height */
+}
+
+.comment-input {
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+  }
+  
+.comment-input textarea {
+    width: 100%; /* Make the textarea width 100% of its container */
+    max-width: 100%; /* Set maximum width to 100% to ensure responsiveness */
+    resize: vertical; /* Allow vertical resizing */
+    height: 40px; /* Set the height of the textarea */
+}
+
+.comment-input button {
+    margin-top: 10px; /* Add some top margin to create space between textarea and button */
 }

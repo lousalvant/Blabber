@@ -14,12 +14,16 @@ function PostDetails() {
   const [upvoted, setUpvoted] = useState(false);
   const [upvoteCount, setUpvoteCount] = useState(0);
   const [userId, setUserId] = useState(null); // State to hold the user ID
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [user, setUser] = useState(null); // State to hold the user object
   const storage = getStorage();
 
-  // Fetch the current user's ID when the component mounts
+  // Fetch the current user when the component mounts
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); // Set the user object in state
       if (user) {
         setUserId(user.uid);
       } else {
@@ -150,6 +154,116 @@ function PostDetails() {
     }
   };
 
+  // Function to handle posting a new comment
+  const handlePostComment = async () => {
+    try {
+      if (!userId) {
+        alert('Please log in to post a comment.');
+        return;
+      }
+      
+      if (newComment.trim() === '') {
+        alert('Please enter a comment.');
+        return;
+      }
+  
+      const newCommentData = {
+        text: newComment,
+        userId: userId,
+        userDisplayName: user.displayName, // Use user.displayName instead of user.displayName
+        createdAt: new Date().toISOString()
+      };
+  
+      // Add the new comment to the database
+      await updateDoc(doc(db, 'posts', postId), {
+        comments: arrayUnion(newCommentData)
+      });
+  
+      // Update the comments state immediately with the new comment
+      setComments([...comments, newCommentData]);
+  
+      // Clear the comment text box after posting
+      setNewComment('');
+    } catch (error) {
+      console.error('Error posting comment:', error);
+      alert('Error posting comment. Please try again.');
+    }
+  };
+
+  // Function to convert time difference to a more readable format for comments
+  const getTimePosted = (createdAt) => {
+    // Parse the ISO 8601 date string into a Date object
+    const createdAtDate = new Date(createdAt);
+  
+    // Calculate the relative time
+    const timeDifference = Date.now() - createdAtDate.getTime();
+    let timePosted;
+  
+    if (timeDifference < 60000) { // Less than a minute
+      timePosted = 'just now';
+    } else if (timeDifference < 3600000) { // Less than an hour
+      const minutes = Math.round(timeDifference / 60000);
+      timePosted = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+    } else if (timeDifference < 86400000) { // Less than a day
+      const hours = Math.round(timeDifference / 3600000);
+      timePosted = `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+    } else { // More than a day
+      const days = Math.round(timeDifference / 86400000);
+      timePosted = `${days} day${days !== 1 ? 's' : ''} ago`;
+    }
+  
+    return timePosted;
+  };
+  
+
+  // Fetch comments when the component mounts
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const postDoc = await getDoc(doc(db, 'posts', postId));
+        if (postDoc.exists()) {
+          const postData = postDoc.data();
+          setComments(postData.comments || []);
+    
+          // Fetch user details for each comment
+          const commentsWithUserDetails = await Promise.all(
+            postData.comments.map(async (comment) => {
+              if (comment.userId) {
+                console.log("Comment user ID:", comment.userId); // Add this line to log the user ID
+                const userSnapshot = await getDoc(doc(db, 'users', comment.userId));
+                if (userSnapshot.exists()) {
+                  const userData = userSnapshot.data();
+                  // Ensure displayName field is included in userData
+                  const { displayName } = userData || {};
+                  // Get profile image URL
+                  const profileImageRef = ref(storage, `profilePictures/${comment.userId}`);
+                  try {
+                    const profileImageUrl = await getDownloadURL(profileImageRef);
+                    return { ...comment, userDisplayName: displayName, profileImageUrl };
+                  } catch (error) {
+                    console.error("Error fetching profile image URL:", error);
+                    // If there's an error fetching the profile image URL, return the comment without the image URL
+                    return { ...comment, userDisplayName: displayName };
+                  }
+                }
+              }
+              return comment;
+            })
+          );
+    
+          // Update comments state with user details
+          setComments(commentsWithUserDetails);
+        } else {
+          console.error('Post not found');
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+    
+    fetchComments();
+  }, [postId]);
+  
   return (
     <div className='post-details-container'>
       {error && <p>Error fetching post: {error}</p>}
@@ -170,6 +284,29 @@ function PostDetails() {
           </div>
         </div>
       )}
+      <div className="comment-section">
+        <h3>Comments</h3>
+        <div className="comment-input">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment..."
+            rows="4"
+            cols="50"
+          />
+          <button onClick={handlePostComment}>Post Comment</button>
+        </div>
+        <div className="comments-list">
+          {comments.slice().reverse().map((comment, index) => (
+            <div key={index} className="comment">
+              <p>Posted {getTimePosted(comment.createdAt)}</p>
+              <p><b>{comment.userDisplayName}</b> says</p>
+              <p>{comment.text}</p>
+              {/* <p>profileImageUrl={comment.profileImageUrl}</p> */}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
