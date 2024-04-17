@@ -1,14 +1,15 @@
-// pages/Home.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
 import './Home.css';
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const storage = getStorage();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -19,7 +20,16 @@ function Home() {
           if (post.userId) {
             const userSnapshot = await getDoc(doc(db, 'users', post.userId));
             const userData = userSnapshot.data();
-            return { ...post, user: userData };
+
+            // Ensure displayName field is included in userData
+            const { displayName } = userData || {}; // Destructure displayName if userData exists
+
+
+            // Get download URL for profile picture
+            const profileImageRef = ref(storage, `profilePictures/${post.userId}`);
+            const profileImageUrl = await getDownloadURL(profileImageRef);
+
+            return { ...post, user: { ...userData, displayName, profileImageUrl } };
           } else {
             console.warn('User ID is undefined for post:', post);
             // Fetching post without user data
@@ -34,15 +44,14 @@ function Home() {
     };
 
     fetchPosts();
-  }, []);
+  }, [storage]);
 
   return (
     <div className='home-container'>
-
       {error && <p>Error fetching posts: {error}</p>}
       {posts.map(post => (
         <div className='post-container' key={post.id}>
-          <Link to={`/post/${post.id}`}>
+          <Link to={`/post/${post.id}`} className='Link'>
             <Post post={post} /> {/* Pass each post as a prop to the Post component */}
           </Link>
         </div>

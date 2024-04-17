@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import './CreatePost.css';
@@ -14,42 +13,51 @@ function CreatePost() {
   const [imageUrl, setImageUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState('');
+  const auth = getAuth(); // Get the authentication instance
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
-
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  }, [auth]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Get the current user UID and displayName
+      const userId = user.uid;
+      const displayName = user.displayName;
+
+      // Get the current date and time
+      const createdAt = new Date().toISOString();; // Store the current date and time as a Date object
+
       // Add a new document with auto-generated ID to a "posts" collection
       const docRef = await addDoc(collection(db, 'posts'), {
+        userId,
+        displayName, // Include the user's displayName in the post data
         title,
         content,
         imageUrl,
-        youtubeUrl
+        youtubeUrl,
+        createdAt // Include the creation date and time in the post data
       });
+
       console.log('Document written with ID: ', docRef.id);
-      // Clear form fields after submission
       setTitle('');
       setContent('');
       setImageUrl('');
       setYoutubeUrl('');
       alert('Post successfully created!');
-      // Redirect to home page after 2 seconds
       navigate('/');
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
+
 
   // Extract video ID from YouTube URL
   const getVideoId = (url) => {
@@ -66,13 +74,13 @@ function CreatePost() {
   };
 
   if (loading) {
-    return null; // or render a loading spinner
+    return null;
   }
 
   if (!user) {
     alert('Please log in to create a post!');
-    navigate('/login'); // Use navigate function to redirect
-    return null; // Return null to prevent rendering while redirecting
+    navigate('/login');
+    return null;
   }
 
   return (

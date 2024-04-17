@@ -1,0 +1,31 @@
+.post-info-container {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .post-title {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .post-info {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .profile-picture {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
