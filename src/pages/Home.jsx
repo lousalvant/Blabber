@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
@@ -24,7 +24,6 @@ function Home() {
             // Ensure displayName field is included in userData
             const { displayName } = userData || {}; // Destructure displayName if userData exists
 
-
             // Get download URL for profile picture
             const profileImageRef = ref(storage, `profilePictures/${post.userId}`);
             const profileImageUrl = await getDownloadURL(profileImageRef);
@@ -36,7 +35,13 @@ function Home() {
             return post;
           }
         }));
-        setPosts(postData);
+
+        // Count unique upvoters for each post
+        const updatedPosts = postData.map(post => {
+          return { ...post, upvoteCount: new Set(post.upvotes).size };
+        });
+
+        setPosts(updatedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError(error.message);

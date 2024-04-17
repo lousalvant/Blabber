@@ -34,6 +34,7 @@ function Post({ post }) {
         </div>
       )}
       <h2 className='post-title'>{post.title}</h2>
+      <p className='post-info'>{post.upvoteCount} 👍</p>
     </div>
   );
 }
