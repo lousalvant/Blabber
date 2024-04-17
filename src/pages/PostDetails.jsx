@@ -1,30 +1,54 @@
-// pages/PostDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import Post from '../components/Post';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
 import './PostDetails.css';
 
 function PostDetails() {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
+  const [error, setError] = useState(null);
+  const storage = getStorage();
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const postDoc = await getDoc(doc(db, 'posts', postId));
         if (postDoc.exists()) {
-          setPost({ id: postDoc.id, ...postDoc.data() });
+          const postData = postDoc.data();
+          if (postData.userId) {
+            const userSnapshot = await getDoc(doc(db, 'users', postData.userId));
+            const userData = userSnapshot.data();
+
+            // Ensure displayName field is included in userData
+            const { displayName } = userData || {}; // Destructure displayName if userData exists
+
+            // Get download URL for profile picture
+            const profileImageRef = ref(storage, `profilePictures/${postData.userId}`);
+            const profileImageUrl = await getDownloadURL(profileImageRef);
+
+            setPost({
+              id: postDoc.id,
+              ...postData,
+              user: { ...userData, displayName, profileImageUrl }
+            });
+          } else {
+            // If userId is not available
+            setPost({ id: postDoc.id, ...postData });
+          }
         } else {
           console.error('Post not found');
         }
       } catch (error) {
         console.error('Error fetching post:', error);
+        setError(error.message);
       }
     };
 
     fetchPost();
-  }, [postId]);
+  }, [postId, storage]);
 
   const renderMedia = () => {
     if (!post) return null;
@@ -76,7 +100,7 @@ function PostDetails() {
     <div className='post-details-container'>
       {post && (
         <div className='post-details-box'>
-          <h1>{post.title}</h1>
+          <Post post={post} />
           <p>{post.content}</p>
           {renderMedia()}
           <div className='button-container'>
