@@ -9,6 +9,7 @@ import './Home.css';
 function Home() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const [sortBy, setSortBy] = useState('newest'); // Track sorting option
   const storage = getStorage();
 
   useEffect(() => {
@@ -41,7 +42,10 @@ function Home() {
           return { ...post, upvoteCount: new Set(post.upvotes).size };
         });
 
-        setPosts(updatedPosts);
+        // Sort posts based on sorting option
+        const sortedPosts = sortPosts(updatedPosts, sortBy);
+
+        setPosts(sortedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError(error.message);
@@ -49,10 +53,40 @@ function Home() {
     };
 
     fetchPosts();
-  }, [storage]);
+  }, [sortBy, storage]);
+
+  // Function to sort posts based on selected option
+  const sortPosts = (posts, sortBy) => {
+    if (sortBy === 'newest') {
+      return posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (sortBy === 'mostPopular') {
+      return posts.sort((a, b) => b.upvoteCount - a.upvoteCount);
+    }
+    return posts;
+  };
+
+  // Function to handle sorting option change
+  const handleSortChange = (option) => {
+    setSortBy(option);
+  };
 
   return (
     <div className='home-container'>
+      <div className='sort-options'>
+        <span>Sort by:</span>
+        <button
+          className={sortBy === 'newest' ? 'active' : ''}
+          onClick={() => handleSortChange('newest')}
+        >
+          Newest
+        </button>
+        <button
+          className={sortBy === 'mostPopular' ? 'active' : ''}
+          onClick={() => handleSortChange('mostPopular')}
+        >
+          Most Popular
+        </button>
+      </div>
       {error && <p>Error fetching posts: {error}</p>}
       {posts.map(post => (
         <div className='post-container' key={post.id}>
