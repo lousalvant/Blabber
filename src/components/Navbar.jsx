@@ -36,10 +36,6 @@ function Navbar() {
             <div className="logo">
                 <img src={logoImg} alt="Your App Logo" />
             </div>
-            <div className="search-bar">
-                <input type="text" placeholder="Search..." />
-                <button>🔍</button> {/* Search button with the magnifying glass emoji */}
-            </div>
             <div className="nav-buttons">
                 <div className="create-post-button">
                     <Link to="/createpost">Create Post</Link>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, doc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
@@ -10,6 +10,8 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState('newest'); // Track sorting option
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const storage = getStorage();
 
   useEffect(() => {
@@ -46,6 +48,7 @@ function Home() {
         const sortedPosts = sortPosts(updatedPosts, sortBy);
 
         setPosts(sortedPosts);
+        setFilteredPosts(sortedPosts); // Initialize filtered posts with sorted posts
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError(error.message);
@@ -70,6 +73,27 @@ function Home() {
     setSortBy(option);
   };
 
+// Function to handle search query change
+const handleSearchInputChange = (event) => {
+  const query = event.target.value.toLowerCase(); // Convert search query to lowercase for case-insensitive matching
+  setSearchQuery(query); // Update search query state
+
+  // Filter posts based on search query
+  const filtered = posts.filter(post =>
+    post.title.toLowerCase().includes(query)
+  );
+  setFilteredPosts(filtered); // Update filtered posts state
+};
+
+
+  // Function to handle search
+  const handleSearch = () => {
+    const filtered = posts.filter(post =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredPosts(filtered);
+  };
+
   return (
     <div className='home-container'>
       <div className='sort-options'>
@@ -87,8 +111,16 @@ function Home() {
           Most Popular
         </button>
       </div>
+      <div className='search-bar'>
+        <input
+          type='text'
+          placeholder='Search by title...'
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+      </div>
       {error && <p>Error fetching posts: {error}</p>}
-      {posts.map(post => (
+      {filteredPosts.map(post => (
         <div className='post-container' key={post.id}>
           <Link to={`/post/${post.id}`} className='Link'>
             <Post post={post} /> {/* Pass each post as a prop to the Post component */}

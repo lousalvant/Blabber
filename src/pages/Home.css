@@ -32,4 +32,27 @@
     background-color: #333;
     color: #fff;
 }
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Align search bar to the right */
+    margin-bottom: 10px;
+    width: 300px;
+    margin-left: 0px;
+}
   
+.search-bar input[type="text"] {
+    border: 1px solid black; /* Add black border to input field */
+    padding: 8px; /* Add padding to input field */
+}
+  
+.search-bar button {
+    background: transparent; /* Make button background transparent */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+  
+.search-bar button:focus {
+    outline: none; /* Remove default focus outline */
+}
