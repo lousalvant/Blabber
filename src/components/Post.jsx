@@ -1,7 +1,7 @@
 import React from 'react';
 import './Post.css';
 
-function Post({ post }) {
+function Post({ post, showUpvoteIcon }) {
   // Parse the ISO 8601 date string into a Date object
   const createdAtDate = new Date(post.createdAt);
 
@@ -34,7 +34,7 @@ function Post({ post }) {
         </div>
       )}
       <h2 className='post-title'>{post.title}</h2>
-      <p className='post-info'>{post.upvoteCount} 👍</p>
+      {showUpvoteIcon && <p className='post-info'>{post.upvoteCount} 👍</p>}
     </div>
   );
 }

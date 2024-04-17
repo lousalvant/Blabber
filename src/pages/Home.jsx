@@ -123,7 +123,7 @@ const handleSearchInputChange = (event) => {
       {filteredPosts.map(post => (
         <div className='post-container' key={post.id}>
           <Link to={`/post/${post.id}`} className='Link'>
-            <Post post={post} /> {/* Pass each post as a prop to the Post component */}
+            <Post post={post} showUpvoteIcon={true} />
           </Link>
         </div>
       ))}

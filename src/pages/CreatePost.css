@@ -1,6 +1,5 @@
 .create-post-container {
   max-width: 800px;
-  max-height: 1000px;
   margin: 100px auto;
   padding: 50px;
   background-color: #808080;
@@ -13,7 +12,7 @@
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 20px; /* Increase margin for better separation */
 }
 
 label {
@@ -23,14 +22,20 @@ label {
 
 input[type="text"],
 textarea {
-  width: 500px;
+  width: calc(100% - 40px); /* Adjust width dynamically */
+  max-width: 600px; /* Set maximum width */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+input[type="file"] {
+  width: 100%; /* Full width for file input */
 }
 
 button[type="submit"] {
-  padding: 10px 20px;
+  padding: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -43,9 +48,6 @@ button[type="submit"]:hover {
 }
 
 textarea {
-  width: 500px; /* Make sure the textarea spans the full width of its container */
   height: 150px; /* Adjust the height according to your preference */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  resize: vertical; /* Allow vertical resizing */
 }

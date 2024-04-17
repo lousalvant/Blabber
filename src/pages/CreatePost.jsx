@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
+import { db, storage} from '../firebaseConfig'; // Import the storage instance
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './CreatePost.css';
 
 function CreatePost() {
@@ -10,9 +11,11 @@ function CreatePost() {
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [localImageUrl, setLocalImageUrl] = useState(''); // State to store the local image URL
+  const [imageUrl, setImageUrl] = useState(''); // State to store the image URL provided by the user
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState('');
+  const [imageFile, setImageFile] = useState(null); // State to store the uploaded image file
   const auth = getAuth(); // Get the authentication instance
   const navigate = useNavigate();
 
@@ -24,6 +27,14 @@ function CreatePost() {
     return () => unsubscribe();
   }, [auth]);
 
+  // Handle image file change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    const localImageUrl = URL.createObjectURL(file);
+    setLocalImageUrl(localImageUrl);
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,31 +44,40 @@ function CreatePost() {
       const displayName = user.displayName;
 
       // Get the current date and time
-      const createdAt = new Date().toISOString();; // Store the current date and time as a Date object
+      const createdAt = new Date().toISOString();
+
+      let downloadUrl = '';
+      // Upload the image file to Firebase Storage if it exists
+      if (imageFile) {
+        const storageRef = ref(storage, `postImages/${imageFile.name}`);
+        const snapshot = await uploadBytes(storageRef, imageFile);
+        downloadUrl = await getDownloadURL(snapshot.ref);
+      }
 
       // Add a new document with auto-generated ID to a "posts" collection
       const docRef = await addDoc(collection(db, 'posts'), {
         userId,
-        displayName, // Include the user's displayName in the post data
+        displayName,
         title,
         content,
-        imageUrl,
+        imageUrl: imageUrl || downloadUrl, // Use the provided image URL if available, otherwise use the download URL from Storage
         youtubeUrl,
-        createdAt // Include the creation date and time in the post data
+        createdAt
       });
 
       console.log('Document written with ID: ', docRef.id);
       setTitle('');
       setContent('');
+      setLocalImageUrl('');
       setImageUrl('');
       setYoutubeUrl('');
+      setImageFile(null); // Clear image file state
       alert('Post successfully created!');
       navigate('/');
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
-
 
   // Extract video ID from YouTube URL
   const getVideoId = (url) => {
@@ -94,6 +114,11 @@ function CreatePost() {
         <div className="form-group">
           <label htmlFor="content">Content:</label>
           <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="localImageUpload">Local Image Upload:</label>
+          <input type="file" id="localImageUpload" accept="image/*" onChange={handleImageChange} />
+          {localImageUrl && <img src={localImageUrl} alt="Local Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
         </div>
         <div className="form-group">
           <label htmlFor="imageUrl">Image URL:</label>

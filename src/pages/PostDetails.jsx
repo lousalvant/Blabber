@@ -155,7 +155,7 @@ function PostDetails() {
       {error && <p>Error fetching post: {error}</p>}
       {post && (
         <div className='post-details-box'>
-          <Post post={post} />
+          <Post post={post} showUpvoteIcon={false} />
           <p>{post.content}</p>
           {renderMedia()}
           <div className='button-container'>
