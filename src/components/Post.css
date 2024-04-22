@@ -13,7 +13,7 @@
     text-decoration: none;
   }
   
-  .user-info {
+  .post-user-info {
     display: flex;
     align-items: center;
     margin-bottom: 10px;

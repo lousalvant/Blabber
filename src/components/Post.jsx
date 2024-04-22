@@ -26,7 +26,7 @@ function Post({ post, showUpvoteIcon }) {
     <div className='post-info-container'>
       <p className='post-info'>Posted {timePosted}</p>
       {post.user && (
-        <div className='user-info'>
+        <div className='post-user-info'>
           {post.user.profileImageUrl && (
             <img src={post.user.profileImageUrl} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} className='profile-picture' />
           )}

@@ -1,0 +1,7 @@
+body {
+    font-family: 'Hahmlet', sans-serif;
+    font-size: medium;
+    background-image: url('./assets/background.jpg');
+    background-size: cover;
+    background-position: center;
+  }

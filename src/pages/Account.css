@@ -9,6 +9,8 @@
     padding: 20px;
     max-height: 500px;
     justify-content: center;
+    border: 1px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .profile-image {
@@ -19,4 +21,7 @@
 
 .user-info {
     margin-top: 20px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
 }
