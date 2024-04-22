@@ -17,6 +17,8 @@ function PostDetails() {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [user, setUser] = useState(null); // State to hold the user object
+  const [secretKey, setSecretKey] = useState(''); // State to hold the entered secret key
+  const [showSecretKeyModal, setShowSecretKeyModal] = useState(false); // State to control the visibility of the secret key modal
   const storage = getStorage();
 
   // Fetch the current user when the component mounts
@@ -141,6 +143,14 @@ function PostDetails() {
 
   const handleDelete = async () => {
     try {
+      // Check if the entered secret key matches the actual secret key
+      if (secretKey !== post.secretKey) {
+        alert('Incorrect secret key. Please try again.');
+        setSecretKey('');
+        setShowSecretKeyModal(false);
+        return;
+      }
+
       await deleteDoc(doc(db, 'posts', postId));
       console.log('Post deleted successfully');
       // Set success message
@@ -151,6 +161,25 @@ function PostDetails() {
       console.error('Error deleting post:', error);
       // Set error message
       alert('Error deleting post. Please try again.');
+    }
+  };
+
+  const handleEdit = async () => {
+    try {
+      // Check if the entered secret key matches the actual secret key
+      if (secretKey !== post.secretKey) {
+        alert('Incorrect secret key. Please try again.');
+        setSecretKey('');
+        setShowSecretKeyModal(false);
+        return;
+      }
+
+      // Redirect the user to the edit post page
+      window.location = `/editpost/${post.id}`;
+    } catch (error) {
+      console.error('Error editing post:', error);
+      // Set error message
+      alert('Error editing post. Please try again.');
     }
   };
 
@@ -277,11 +306,19 @@ function PostDetails() {
               👍
             </button>
             <span className='upvote-count'>{upvoteCount} Likes</span>
-            <Link to={`/editpost/${post.id}`}>
-              <button>✏️</button>
-            </Link>
-            <button onClick={handleDelete}>❌</button>
+            <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
+            <button onClick={() => setShowSecretKeyModal(true)}>❌</button>
           </div>
+          {showSecretKeyModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <span className="close" onClick={() => setShowSecretKeyModal(false)}>&times;</span>
+                <h2>Enter Secret Key</h2>
+                <input type="password" value={secretKey} onChange={(e) => setSecretKey(e.target.value)} />
+                <button onClick={handleEdit}>Submit</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
       <div className="comment-section">

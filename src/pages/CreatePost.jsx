@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
-import { db, storage} from '../firebaseConfig'; // Import the storage instance
+import { db, storage } from '../firebaseConfig'; // Import the storage instance
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './CreatePost.css';
 
@@ -16,6 +16,7 @@ function CreatePost() {
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState('');
   const [imageFile, setImageFile] = useState(null); // State to store the uploaded image file
+  const [secretKey, setSecretKey] = useState(''); // State to hold the secret key
   const auth = getAuth(); // Get the authentication instance
   const navigate = useNavigate();
 
@@ -62,7 +63,8 @@ function CreatePost() {
         content,
         imageUrl: imageUrl || downloadUrl, // Use the provided image URL if available, otherwise use the download URL from Storage
         youtubeUrl,
-        createdAt
+        createdAt,
+        secretKey // Include the secret key in the post data
       });
 
       console.log('Document written with ID: ', docRef.id);
@@ -72,6 +74,7 @@ function CreatePost() {
       setImageUrl('');
       setYoutubeUrl('');
       setImageFile(null); // Clear image file state
+      setSecretKey(''); // Clear the secret key state
       alert('Post successfully created!');
       navigate('/');
     } catch (error) {
@@ -116,12 +119,12 @@ function CreatePost() {
           <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className="form-group">
-          <label htmlFor="localImageUpload">Local Image Upload:</label>
+          <label htmlFor="localImageUpload">Upload an image from device:</label>
           <input type="file" id="localImageUpload" accept="image/*" onChange={handleImageChange} />
           {localImageUrl && <img src={localImageUrl} alt="Local Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
         </div>
         <div className="form-group">
-          <label htmlFor="imageUrl">Image URL:</label>
+          <label htmlFor="imageUrl">Upload an image by URL:</label>
           <input type="text" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
           {imageUrl && <img src={imageUrl} alt="Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
         </div>
@@ -140,6 +143,10 @@ function CreatePost() {
               style={{ marginTop: '10px' }}
             />
           )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="secretKey">Secret Key:</label>
+          <input type="password" id="secretKey" value={secretKey} onChange={(e) => setSecretKey(e.target.value)} required />
         </div>
         <button type="submit">Submit</button>
       </form>
