@@ -4,7 +4,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import Post from '../components/Post';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Import storage functions
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import loadingGif from '../assets/loading.gif';
 import './PostDetails.css';
 
 function PostDetails() {
@@ -19,6 +20,7 @@ function PostDetails() {
   const [user, setUser] = useState(null); // State to hold the user object
   const [secretKey, setSecretKey] = useState(''); // State to hold the entered secret key
   const [showSecretKeyModal, setShowSecretKeyModal] = useState(false); // State to control the visibility of the secret key modal
+  const [loading, setLoading] = useState(true);
   const storage = getStorage();
 
   // Fetch the current user when the component mounts
@@ -75,9 +77,11 @@ function PostDetails() {
         } else {
           console.error('Post not found');
         }
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching post:', error);
         setError(error.message);
+        setLoading(false);
       }
     };
     
@@ -275,61 +279,72 @@ function PostDetails() {
   }, [postId]);
   
   return (
-    <div className='post-details-container'>
-      {error && <p>Error fetching post: {error}</p>}
-      {post && (
-        <div className='post-details-box'>
-          <Post post={post} showUpvoteIcon={false} />
-          <p>{post.content}</p>
-          {renderMedia()}
-          <div className='button-container'>
-            <div className='left-buttons'>
-              <button onClick={handleUpvote} className={`upvote-button ${upvoted ? 'upvoted' : ''}`}>
-                👍
-              </button>
-              <span className='upvote-count'>{upvoteCount} Likes</span>
-            </div>
-            <div className='right-buttons'>
-              <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
-            </div>
-          </div>
-          {showSecretKeyModal && (
-            <div className="modal">
-              <div className="modal-content">
-                <span className="close" onClick={() => setShowSecretKeyModal(false)}>&times;</span>
-                <h2>Enter Secret Key</h2>
-                <input type="password" value={secretKey} onChange={(e) => setSecretKey(e.target.value)} />
-                <button onClick={handleEdit}>Submit</button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      <div className="comment-section">
-        <h3>Comments</h3>
-        <div className="comment-input">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write a comment..."
-            rows="4"
-            cols="50"
-          />
-          <button onClick={handlePostComment}>Post Comment</button>
-        </div>
-        <div className="comments-list">
-          {comments.slice().reverse().map((comment, index) => (
-            <div key={index} className="comment">
-              <p>Posted {getTimePosted(comment.createdAt)}</p>
-              <p><b>{comment.userDisplayName}</b> says</p>
-              <p>{comment.text}</p>
-              {/* <p>profileImageUrl={comment.profileImageUrl}</p> */}
-            </div>
-          ))}
+  <div className='post-details-container'>
+    {loading ? ( // Conditionally render loading animation if loading is true
+      <div className='loading-container'>
+        <div className="loading-animation">
+          <img src={loadingGif} alt="Loading..." />
         </div>
       </div>
-    </div>
-  );
+    ) : (
+      <>
+        {error && <p>Error fetching post: {error}</p>}
+        {post && (
+          <div className='post-details-box'>
+            <Post post={post} showUpvoteIcon={false} />
+            <p>{post.content}</p>
+            {renderMedia()}
+            <div className='button-container'>
+              <div className='left-buttons'>
+                <button onClick={handleUpvote} className={`upvote-button ${upvoted ? 'upvoted' : ''}`}>
+                  👍
+                </button>
+                <span className='upvote-count'>{upvoteCount} Likes</span>
+              </div>
+              <div className='right-buttons'>
+                <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
+              </div>
+            </div>
+            {showSecretKeyModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <span className="close" onClick={() => setShowSecretKeyModal(false)}>&times;</span>
+                  <h2>Enter Secret Key</h2>
+                  <input type="password" value={secretKey} onChange={(e) => setSecretKey(e.target.value)} />
+                  <button onClick={handleEdit}>Submit</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        <div className="comment-section">
+          <h3>Comments</h3>
+          <div className="comment-input">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Write a comment..."
+              rows="4"
+              cols="50"
+            />
+            <button onClick={handlePostComment}>Post Comment</button>
+          </div>
+          <div className="comments-list">
+            {comments.slice().reverse().map((comment, index) => (
+              <div key={index} className="comment">
+                <p>Posted {getTimePosted(comment.createdAt)}</p>
+                <p><b>{comment.userDisplayName}</b> says</p>
+                <p>{comment.text}</p>
+                {/* <p>profileImageUrl={comment.profileImageUrl}</p> */}
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    )}
+  </div>
+);
 }
+
 
 export default PostDetails;
