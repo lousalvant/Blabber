@@ -1,6 +1,5 @@
 .post-details-container {
     max-width: 800px;
-    max-height: 1000px;
     margin: 100px auto;
     padding: 50px;
     background-color: #b6b6b6;
@@ -10,7 +9,6 @@
     text-align: left;
     border: 1px solid #000000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
 }
 
 .youtube-video {
