@@ -47,22 +47,25 @@ function EditPost() {
     e.preventDefault();
     try {
       // Upload the image file to Firebase Storage if it exists
-      let downloadUrl = '';
-      let newLocalImageUrl = ''; // Initialize new local image URL variable
+      let downloadUrl = imageUrl; // Use the existing image URL by default
+      let newLocalImageUrl = localImageUrl; // Use the existing local image URL by default
   
       if (imageFile) {
         const storageRef = ref(storage, `postImages/${imageFile.name}`);
         await uploadBytes(storageRef, imageFile);
         downloadUrl = await getDownloadURL(storageRef);
-        newLocalImageUrl = URL.createObjectURL(imageFile); // Create new local image URL
+        newLocalImageUrl = downloadUrl; // Create new local image URL
+      } else {
+        // If no new image is uploaded, preserve the existing localImageUrl
+        newLocalImageUrl = localImageUrl;
       }
   
       // Update post data in Firestore
       await updateDoc(doc(db, 'posts', postId), {
         title,
         content,
-        imageUrl: imageUrl || downloadUrl, // Use the existing image URL if available, otherwise use the newly uploaded URL
-        localImageUrl: newLocalImageUrl, // Update localImageUrl field with the new local image URL
+        imageUrl: imageUrl,
+        localImageUrl: newLocalImageUrl,
         youtubeUrl,
       });
   
@@ -76,6 +79,7 @@ function EditPost() {
       console.error('Error updating post:', error);
     }
   };
+  
   
   
 
