@@ -43,10 +43,10 @@ function CreatePost() {
       // Get the current user UID and displayName
       const userId = user.uid;
       const displayName = user.displayName;
-
+  
       // Get the current date and time
       const createdAt = new Date().toISOString();
-
+  
       let downloadUrl = '';
       // Upload the image file to Firebase Storage if it exists
       if (imageFile) {
@@ -54,7 +54,7 @@ function CreatePost() {
         const snapshot = await uploadBytes(storageRef, imageFile);
         downloadUrl = await getDownloadURL(snapshot.ref);
       }
-
+  
       // Add a new document with auto-generated ID to a "posts" collection
       const docRef = await addDoc(collection(db, 'posts'), {
         userId,
@@ -62,11 +62,12 @@ function CreatePost() {
         title,
         content,
         imageUrl: imageUrl || downloadUrl, // Use the provided image URL if available, otherwise use the download URL from Storage
+        localImageUrl, // Include the local image URL
         youtubeUrl,
         createdAt,
         secretKey // Include the secret key in the post data
       });
-
+  
       console.log('Document written with ID: ', docRef.id);
       setTitle('');
       setContent('');
@@ -81,6 +82,7 @@ function CreatePost() {
       console.error('Error adding document: ', error);
     }
   };
+  
 
   // Extract video ID from YouTube URL
   const getVideoId = (url) => {

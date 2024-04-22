@@ -117,6 +117,10 @@ function PostDetails() {
     if (!post) return null;
   
     const mediaElements = [];
+
+    if (post.localImageUrl) {
+      mediaElements.push(<img key="localImage" src={post.localImageUrl} alt="Local Post" style={{ maxWidth: '500px', height: 'auto' }} />);
+    }
   
     if (post.imageUrl) {
       mediaElements.push(<img key="image" src={post.imageUrl} alt="Post" style={{ maxWidth: '500px', height: 'auto' }} />);

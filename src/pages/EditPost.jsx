@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
+import { db, storage } from '../firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './EditPost.css';
 
 function EditPost() {
@@ -11,6 +12,8 @@ function EditPost() {
   const [imageUrl, setImageUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState('');
+  const [imageFile, setImageFile] = useState(null); // State to store the uploaded image file
+  const [localImageUrl, setLocalImageUrl] = useState('');
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -20,6 +23,7 @@ function EditPost() {
           const postData = postDoc.data();
           setTitle(postData.title);
           setContent(postData.content);
+          setLocalImageUrl(postData.imageUrl || '');
           setImageUrl(postData.imageUrl || '');
           setYoutubeUrl(postData.youtubeUrl || '');
           setVideoId(getVideoId(postData.youtubeUrl));
@@ -42,12 +46,29 @@ function EditPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Upload the image file to Firebase Storage if it exists
+      let downloadUrl = '';
+      let newLocalImageUrl = ''; // Initialize new local image URL variable
+  
+      if (imageFile) {
+        const storageRef = ref(storage, `postImages/${imageFile.name}`);
+        await uploadBytes(storageRef, imageFile);
+        downloadUrl = await getDownloadURL(storageRef);
+        newLocalImageUrl = URL.createObjectURL(imageFile); // Create new local image URL
+      }
+  
+      // Update post data in Firestore
       await updateDoc(doc(db, 'posts', postId), {
         title,
         content,
-        imageUrl,
+        imageUrl: imageUrl || downloadUrl, // Use the existing image URL if available, otherwise use the newly uploaded URL
+        localImageUrl: newLocalImageUrl, // Update localImageUrl field with the new local image URL
         youtubeUrl,
       });
+  
+      // Update localImageUrl state with the new blob URL
+      setLocalImageUrl(newLocalImageUrl);
+  
       alert('Post updated successfully');
       // Redirect user to post details page or another appropriate page
       window.location.href = `/post/${postId}`;
@@ -55,6 +76,8 @@ function EditPost() {
       console.error('Error updating post:', error);
     }
   };
+  
+  
 
   const handleYoutubeUrlChange = (e) => {
     const url = e.target.value;
@@ -75,6 +98,14 @@ function EditPost() {
     }
   };
 
+  // Handle image file change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    const localImageUrl = URL.createObjectURL(file);
+    setLocalImageUrl(localImageUrl);
+  };
+
   return (
     <div className="edit-post-container">
       <h2>Edit Post</h2>
@@ -88,10 +119,15 @@ function EditPost() {
           <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className="form-group">
-          <label htmlFor="imageUrl">Image URL:</label>
+          <label htmlFor="localImageUpload">Upload an image from device:</label>
+          <input type="file" id="localImageUpload" accept="image/*" onChange={handleImageChange} />
+          {localImageUrl && <img src={localImageUrl} alt="Local Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
+        </div>
+        <div className="form-group">
+          <label htmlFor="imageUrl">Upload an image by URL:</label>
           <input type="text" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
           {imageUrl && <img src={imageUrl} alt="Post" style={{ maxWidth: '50%', marginTop: '10px' }} />}
-        </div>
+        </div>    
         <div className="form-group">
           <label htmlFor="youtubeUrl">YouTube URL:</label>
           <input type="text" id="youtubeUrl" value={youtubeUrl} onChange={handleYoutubeUrlChange} />
