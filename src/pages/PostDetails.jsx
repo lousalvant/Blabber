@@ -123,11 +123,11 @@ function PostDetails() {
     const mediaElements = [];
 
     if (post.localImageUrl) {
-      mediaElements.push(<img key="localImage" src={post.localImageUrl} alt="Local Post" style={{ maxWidth: '500px', height: 'auto' }} />);
+      mediaElements.push(<img key="localImage" src={post.localImageUrl} alt="Local Post"  />);
     }
   
     if (post.imageUrl) {
-      mediaElements.push(<img key="image" src={post.imageUrl} alt="Post" style={{ maxWidth: '500px', height: 'auto' }} />);
+      mediaElements.push(<img key="image" src={post.imageUrl} alt="Post" />);
     }
   
     if (post.youtubeUrl) {
@@ -135,8 +135,6 @@ function PostDetails() {
       mediaElements.push(
         <iframe
           key="video"
-          width="560"
-          height="315"
           src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameBorder="0"

@@ -36,3 +36,25 @@
 .login-button-container button:hover {
   background-color: #0056b3; /* Darken button background color on hover */
 }
+
+@media screen and (max-width: 768px) {
+  .login-container {
+      padding-top: 30px; /* Reduce top padding */
+  }
+
+  .login-box {
+      width: 250px; /* Reduce width of login box */
+      padding: 15px; /* Reduce padding inside the box */
+  }
+
+  .login-box input {
+      font-size: 12px; /* Reduce font size of input fields */
+      margin-bottom: 8px; /* Adjust margin bottom of input fields */
+  }
+
+  .login-button-container button {
+      font-size: 10px; /* Reduce font size of login button */
+      padding: 8px 16px; /* Adjust padding of login button */
+      margin-top: 8px; /* Adjust margin top of login button */
+  }
+}

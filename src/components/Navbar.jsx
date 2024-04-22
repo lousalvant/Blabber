@@ -38,7 +38,7 @@ function Navbar() {
             </div>
             <div className="nav-buttons">
                 <div className="create-post-button">
-                    <Link to="/createpost">Create Post</Link>
+                    <Link to="/createpost">Create</Link>
                 </div>
             </div>
             <div className="auth-buttons">

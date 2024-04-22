@@ -63,5 +63,25 @@
     left: 50%; /* Place the left edge of the container at the horizontal center of the viewport */
     transform: translate(-50%, -50%); /* Center the container both vertically and horizontally */
     z-index: 9999; /* Ensure the loading animation is on top of other content */
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .home-container {
+      max-width: 90%; /* Adjust the width for smaller screens */
+      margin-top: 100px; /* Adjust the margin-top for smaller screens */
+    }
   
+    .post-container {
+      padding: 10px; /* Adjust the padding for post containers */
+      height: 150px;
+      font-size: 10px;
+    }
+  
+    .search-bar {
+      width: 100%; /* Make the search bar full width */
+    }
+  
+    .post-content {
+        font-size: 10px; /* Reduce the font size of the post content */
+      }
+  }

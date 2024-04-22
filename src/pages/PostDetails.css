@@ -127,5 +127,36 @@
     padding: 10px; /* Add padding inside each comment */
     margin-bottom: 10px; /* Add bottom margin between comments */
     background-color: #888888;
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .post-details-container {
+        max-width: 100%; /* Adjust max-width to fit smaller screens */
+        padding: 20px; /* Reduce padding for smaller screens */
+        font-size: 10px;
+    }
+
+    .post-details-container .button-container button {
+        padding: 8px 12px; /* Adjust padding for smaller buttons */
+    }
+
+    .post-details-container .upvote-button {
+        font-size: 0.8rem; /* Reduce font size for upvote button */
+    }
+
+    .post-details-container .comment-input textarea {
+        height: 30px; /* Reduce height of textarea for smaller screens */
+    }
+
+    .post-details-container .comment {
+        padding: 8px; /* Adjust padding for comments on smaller screens */
+    }
+
+    .post-details-box img,
+    .post-details-box video {
+        max-width: 100%; /* Ensure media fills container width */
+        height: auto; /* Maintain aspect ratio */
+    }
+}
+
   

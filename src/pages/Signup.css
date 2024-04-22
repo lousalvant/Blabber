@@ -55,3 +55,33 @@
   align-items: center;
   margin-left: 80px;
 }
+
+@media screen and (max-width: 768px) {
+  .signup-container {
+      padding-top: 50px; /* Reduce top padding */
+  }
+
+  .signup-box {
+      width: 240px; /* Reduce width of signup box */
+      padding: 15px; /* Reduce padding inside the box */
+  }
+
+  .signup-box input {
+      font-size: 10px; /* Reduce font size of input fields */
+      margin-bottom: 8px; /* Adjust margin bottom of input fields */
+  }
+
+  .signup-button-container button {
+      font-size: 12px; /* Reduce font size of signup button */
+      padding: 8px 16px; /* Adjust padding of signup button */
+      margin-top: 8px; /* Adjust margin top of signup button */
+  }
+
+  .file-input-container button {
+      margin-left: 80px; /* Adjust margin left of file input button */
+  }
+
+  .file-input-container input[type="file"] {
+      margin-left: 60px; /* Adjust margin left of file input */
+  }
+}

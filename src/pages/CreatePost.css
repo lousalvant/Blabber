@@ -59,3 +59,22 @@ input[type="file"] {
   margin-left: 150px;
 }
 
+@media screen and (max-width: 768px) {
+  .create-post-container {
+    width: 300px;
+    padding: 20px; /* Reduce padding for smaller screens */
+  }
+
+  .create-post-container,
+  .form-group label,
+  input[type="text"],
+  textarea,
+  button[type="submit"] {
+    font-size: 10px;
+  }
+
+  input[type="file"] {
+    width: 100%; /* Full width for file input */
+    margin-left: 50px;
+  }
+}

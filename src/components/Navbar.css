@@ -127,3 +127,43 @@
 .create-post-button a:hover {
     background-color: rgb(0, 145, 255); /* Change background color on hover */
 }
+
+
+@media screen and (max-width: 768px) {
+    /* New styles for mobile devices */
+    
+    .navbar {
+      padding: 5px; /* Reduce padding for smaller screens */
+      font-size: 0px; /* Hide text, as buttons are represented by icons */
+    }
+    
+    .logo img {
+      width: 120px; /* Reduce logo size for smaller screens */
+    }
+    
+    .auth-buttons .home-button,
+    .auth-buttons .login-signup-button,
+    .auth-buttons .account-button,
+    .nav-buttons .create-post-button a {
+      margin-right: 10px; /* Set a consistent right margin between buttons */
+      font-size: 10px; /* Reduce font size for buttons */
+    }
+    
+    .auth-buttons .account-button {
+      margin-right: 20px; /* Remove right margin for account button */
+    }
+    
+    .nav-buttons {
+      display: flex; /* Ensure the create post button is visible */
+      align-items: baseline; /* Align items vertically */
+    }
+    
+    .nav-buttons .create-post-button a {
+      margin-right: 0; /* Remove right margin for the create post button */
+    }
+    
+    .navbar {
+      padding-left: 10px; /* Adjust padding to move the title a bit to the left */
+    }
+  }
+  
