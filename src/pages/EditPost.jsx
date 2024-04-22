@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import './EditPost.css';
 
@@ -63,6 +63,18 @@ function EditPost() {
     setVideoId(id);
   };
 
+  const handleDelete = async () => {
+    try {
+      // Delete the post from the database
+      await deleteDoc(doc(db, 'posts', postId));
+      alert('Post deleted successfully');
+      // Redirect user to an appropriate page, e.g., home page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
   return (
     <div className="edit-post-container">
       <h2>Edit Post</h2>
@@ -96,7 +108,10 @@ function EditPost() {
             />
           )}
         </div>
-        <button type="submit">Update</button>
+        <div className="button-group">
+          <button type="submit">Update</button>
+          <button type="submit" onClick={handleDelete}>Delete</button>
+        </div>
       </form>
     </div>
   );

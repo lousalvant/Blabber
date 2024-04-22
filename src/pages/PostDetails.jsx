@@ -141,29 +141,6 @@ function PostDetails() {
     return mediaElements;
   };
 
-  const handleDelete = async () => {
-    try {
-      // Check if the entered secret key matches the actual secret key
-      if (secretKey !== post.secretKey) {
-        alert('Incorrect secret key. Please try again.');
-        setSecretKey('');
-        setShowSecretKeyModal(false);
-        return;
-      }
-
-      await deleteDoc(doc(db, 'posts', postId));
-      console.log('Post deleted successfully');
-      // Set success message
-      alert('Post deleted successfully!');
-      // Redirect user to the home page
-      window.location = '/';
-    } catch (error) {
-      console.error('Error deleting post:', error);
-      // Set error message
-      alert('Error deleting post. Please try again.');
-    }
-  };
-
   const handleEdit = async () => {
     try {
       // Check if the entered secret key matches the actual secret key
@@ -307,7 +284,6 @@ function PostDetails() {
             </button>
             <span className='upvote-count'>{upvoteCount} Likes</span>
             <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
-            <button onClick={() => setShowSecretKeyModal(true)}>❌</button>
           </div>
           {showSecretKeyModal && (
             <div className="modal">
