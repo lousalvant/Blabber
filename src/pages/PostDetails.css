@@ -3,7 +3,7 @@
     max-height: 1000px;
     margin: 100px auto;
     padding: 50px;
-    background-color: #808080;
+    background-color: #b6b6b6;
     border-radius: 8px;
     align-items: center; /* Vertically center content */
     justify-content: center; /* Horizontally center content */
@@ -49,7 +49,20 @@
 }
 
 .button-container {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.left-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.right-buttons {
+    display: flex;
+    align-items: center;
 }
 
 .button-container button {
@@ -108,3 +121,11 @@
     margin-top: 10px; /* Add some top margin to create space between textarea and button */
 }
 
+.comment {
+    border: 1px solid #000000; /* Add border to each comment */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    padding: 10px; /* Add padding inside each comment */
+    margin-bottom: 10px; /* Add bottom margin between comments */
+    background-color: #888888;
+  }
+  

@@ -8,7 +8,7 @@
 }
 
 .signup-box {
-    background-color: #808080; /* Background color for the box */
+    background-color: #b6b6b6; /* Background color for the box */
     border-radius: 8px; /* Border radius for rounded corners */
     padding: 20px; /* Padding inside the box */
     width: 300px; /* Width of the box */
@@ -39,17 +39,19 @@
     margin-top: 10px;
   }
   
-  .signup-button-container button:hover {
-    background-color: #0056b3; /* Darken button background color on hover */
-  }
+.signup-button-container button:hover {
+  background-color: #0056b3; /* Darken button background color on hover */
+}
 
 .file-input-container {
-    display: flex;
-    align-items: center;
-    margin-left: 60px;
-  }
+  align-items: center;
+}
   
-  .file-input-container button {
-    margin-left: 10px; /* Adjust this value as needed */
-  }
-  
+.file-input-container button {
+  margin-left: 100px; /* Adjust this value as needed */
+}
+
+.file-input-container input[type="file"] {
+  align-items: center;
+  margin-left: 80px;
+}

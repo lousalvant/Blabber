@@ -283,11 +283,15 @@ function PostDetails() {
           <p>{post.content}</p>
           {renderMedia()}
           <div className='button-container'>
-            <button onClick={handleUpvote} className={`upvote-button ${upvoted ? 'upvoted' : ''}`}>
-              👍
-            </button>
-            <span className='upvote-count'>{upvoteCount} Likes</span>
-            <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
+            <div className='left-buttons'>
+              <button onClick={handleUpvote} className={`upvote-button ${upvoted ? 'upvoted' : ''}`}>
+                👍
+              </button>
+              <span className='upvote-count'>{upvoteCount} Likes</span>
+            </div>
+            <div className='right-buttons'>
+              <button onClick={() => setShowSecretKeyModal(true)}>✏️</button>
+            </div>
           </div>
           {showSecretKeyModal && (
             <div className="modal">
