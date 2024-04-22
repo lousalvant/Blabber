@@ -61,8 +61,8 @@ function CreatePost() {
         displayName,
         title,
         content,
-        imageUrl: imageUrl || downloadUrl, // Use the provided image URL if available, otherwise use the download URL from Storage
-        localImageUrl, // Include the local image URL
+        imageUrl: imageUrl, // Use the provided image URL if available, otherwise use the download URL from Storage
+        localImageUrl: downloadUrl, // Include the local image URL
         youtubeUrl,
         createdAt,
         secretKey // Include the secret key in the post data
