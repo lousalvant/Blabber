@@ -23,7 +23,7 @@ function EditPost() {
           const postData = postDoc.data();
           setTitle(postData.title);
           setContent(postData.content);
-          setLocalImageUrl(postData.imageUrl || '');
+          setLocalImageUrl(postData.localImageUrl || '');
           setImageUrl(postData.imageUrl || '');
           setYoutubeUrl(postData.youtubeUrl || '');
           setVideoId(getVideoId(postData.youtubeUrl));
