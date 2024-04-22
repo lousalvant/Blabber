@@ -140,6 +140,7 @@ function PostDetails() {
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          className="youtube-video"
         />
       );
     }

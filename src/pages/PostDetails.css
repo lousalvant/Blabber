@@ -13,9 +13,10 @@
     overflow-y: auto;
 }
 
-/* .post-details-box {
-
-} */
+.youtube-video {
+    height: 350px; /* Adjust the height of the video as needed */
+    width: 600px;
+}  
 
 .modal {
     position: fixed;
@@ -157,6 +158,11 @@
         max-width: 100%; /* Ensure media fills container width */
         height: auto; /* Maintain aspect ratio */
     }
+
+    .youtube-video {
+        height: 300px; /* Adjust the height of the video as needed */
+        width: 100%;
+    }  
 }
 
   
