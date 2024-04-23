@@ -2,9 +2,9 @@
 
 Submitted by: **Lou Salvant**
 
-This web app: **a twitter inspired app.**
+This web app: **is a twitter inspired app.**
 
-Time spent: **X** hours spent in total
+Time spent: **20** hours spent in total
 
 ## Required Features
 
@@ -35,7 +35,8 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you added to improve the site's functionality!
+* [x] List anything else that you added to improve the site's functionality!
+- added an account overview page
 
 ## Video Walkthrough
 
@@ -52,7 +53,7 @@ GIF created with ...
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I had issues with uploading an image locally and from a url at the same time. I was able to fix this by adding a extra field to post documents. I also had issues setting up my security rules once deploying my app. I had initially set them up and then after I initialized and deployed my app, the security rules reset.
 
 ## License
 

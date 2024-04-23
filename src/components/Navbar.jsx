@@ -51,7 +51,7 @@ function Navbar() {
                         <div className="dropdown-content">
                             {user ? (
                                 <>
-                                    <Link to="/account">Account Overview</Link>
+                                    <Link to="/account">Overview</Link>
                                     <button onClick={handleSignOut}>Sign Out</button>
                                 </>
                             ) : (

@@ -26,6 +26,8 @@
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
     color: black;
+    left: -20px;
+    top: 100%;
 }
 
 /* Show the dropdown content when the dropdown button is hovered over */
