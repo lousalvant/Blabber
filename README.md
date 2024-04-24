@@ -4,6 +4,10 @@ Submitted by: **Lou Salvant**
 
 This web app: **is a twitter inspired app.**
 
+https://blabber-c0d64.netlify.app/
+
+https://blabber-c0d64.web.app/
+
 Time spent: **20** hours spent in total
 
 ## Required Features
@@ -42,7 +46,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDE4Ym9ldGdsMzNxZWp0NjVhMHAxbWlrMDEzZHQ3aXVmdDNrYng3NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ayb8t9axGHJzFlmqWG/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with ...  
